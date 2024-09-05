@@ -220,13 +220,22 @@ def generate_batches_building(building, sampling_rate, subseries_length, missing
 def generate_batches_single_argument(arg):
     return generate_batches_building(*arg)
 
+def generate_building_dataframe(building_id, sampling_rate, missingval_tolerance, weather_columns, meter_columns):
+    site = building_id.split('_')[0]
+    weather_df = import_weather_timeseries(site, sampling_rate, columns=weather_columns)
+    meter_df = load_all_meter_series_for_building(building_id, sampling_rate, missingval_tolerance, columns_force=meter_columns)
+    return building_id, weather_df.join(meter_df)
+
+def generate_building_dataframe_single_argument(arg):
+    return generate_building_dataframe(*arg)
+
 def main():
     sampling_rate = '1h'
     subseries_length = timedelta(hours=512)
     missingval_tolerance = 0.95
     prediction_duration = timedelta(hours=96)
     
-    weather_columns = (#'airTemperature', 
+    weather_columns = ('airTemperature', 
                        'cloudCoverage', 
                        'dewTemperature', 
                        'precipDepth1HR', 
@@ -252,14 +261,21 @@ def main():
     
     
     
+    
+    
 
     with multiprocessing.Pool() as pool:
-        args = [(building, sampling_rate, subseries_length, missingval_tolerance, prediction_duration, weather_columns, meter_columns, prediction_variable) for building in buildings]
-        results = pool.map(generate_batches_single_argument, args)
+        args = [(building, sampling_rate, missingval_tolerance, weather_columns, meter_columns) for building in buildings]
+        results = pool.map(generate_building_dataframe_single_argument, args)
         
-    for building, batches in results:
-        print(f"Building {building}:")
-        print(f"Generated {len(batches)} batches")
+    for building, df in results:
+        print(f"Building {building} dataframe:")
+        print(df.info())
+        # save to csv with decimal precision of 3
+        
+        
+        df.to_csv(os.path.join(os.path.dirname(__file__),'..',f'data/buildings/{building}.csv'), float_format='%.2f')
+    
         
         
         
