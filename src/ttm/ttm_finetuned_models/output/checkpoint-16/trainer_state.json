@@ -1,33 +1,33 @@
 {
-  "best_metric": 0.11486946046352386,
-  "best_model_checkpoint": "ttm_finetuned_models/output/checkpoint-8",
+  "best_metric": 0.11978542059659958,
+  "best_model_checkpoint": "ttm_finetuned_models/output/checkpoint-16",
   "epoch": 1.0,
   "eval_steps": 500,
-  "global_step": 8,
+  "global_step": 16,
   "is_hyper_param_search": false,
   "is_local_process_zero": true,
   "is_world_process_zero": true,
   "log_history": [
     {
       "epoch": 1.0,
-      "grad_norm": 7.896342754364014,
-      "learning_rate": 5.066552211758046e-06,
-      "loss": 0.6532,
-      "step": 8
+      "grad_norm": 4.86734676361084,
+      "learning_rate": 1.0563688914036454e-05,
+      "loss": 0.3128,
+      "step": 16
     },
     {
       "epoch": 1.0,
-      "eval_loss": 0.11486946046352386,
-      "eval_runtime": 42.4607,
-      "eval_samples_per_second": 31.676,
-      "eval_steps_per_second": 0.141,
-      "step": 8
+      "eval_loss": 0.11978542059659958,
+      "eval_runtime": 52.7851,
+      "eval_samples_per_second": 25.481,
+      "eval_steps_per_second": 0.208,
+      "step": 16
     }
   ],
   "logging_steps": 500,
-  "max_steps": 400,
+  "max_steps": 320,
   "num_input_tokens_seen": 0,
-  "num_train_epochs": 50,
+  "num_train_epochs": 20,
   "save_steps": 500,
   "stateful_callbacks": {
     "EarlyStoppingCallback": {
@@ -51,7 +51,7 @@
     }
   },
   "total_flos": 4791789649920.0,
-  "train_batch_size": 256,
+  "train_batch_size": 128,
   "trial_name": null,
   "trial_params": null
 }
